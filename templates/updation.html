@@ -1,0 +1,59 @@
+{% load staticfiles %}
+<html>
+<body>
+<script type="text/javascript">
+        function PreviewImage()
+        {
+            var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+            oFReader.onload = function (oFREvent)
+            {
+                document.getElementById("uploadPreview").src = oFREvent.target.result;
+            };
+        };
+    </script>
+
+<form action="/updation/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table align="center" border="2">
+        {% for x in qsy %}
+        <tr>
+            <th>
+                Update Page
+            </th>
+        </tr>
+        <tr>
+            <td>
+                Name: <input type="text" value="{{ x.name }}"readonly name="name">
+            </td>
+        <td><img  id="uploadPreview"  style="width: 100px; height: 100px;" /></td>
+
+        </tr>
+            <tr>
+            <td>
+             Age:   <input type="number" value="{{ x.age }}" name="age">
+            </td>
+        </tr>
+            <tr>
+            <td>
+            Contactno:  <input type="number" value="{{ x.contactno }}" name="cno">
+            </td>
+        </tr>
+            <tr>
+            <td>
+             Email:   <input type="text" value="{{ x.email }}" name="email">
+            </td>
+        </tr>
+            <tr><td>Image: <input type="file" value="/{{ x.image.url }}" name="file" id="uploadImage"></td></tr>
+            <tr>
+            <th>
+                <button type="submit">Update</button>
+            </th>
+            </tr>
+        {% endfor %}
+    </table>
+</form>
+<center><h1>{{ message }}</h1></center>
+</body>
+</html>

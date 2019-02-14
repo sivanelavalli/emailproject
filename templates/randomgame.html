@@ -1,0 +1,18 @@
+<html>
+<body>
+{% include "new.html" %}
+<form action="/randomgame/" method="post">
+    {% csrf_token %}
+    <table align="center" border="2">
+        <tr>
+            <td><input type="number" name="t1" placeholder="enter your number"></td>
+        </tr>
+        <tr>
+            <th width="100"><button type="submit">PICK</button>
+</th>
+        </tr>
+        </table>
+</form>
+<center>{{ message }}</center>
+</body>
+</html>

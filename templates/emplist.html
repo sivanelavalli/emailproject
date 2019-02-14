@@ -1,0 +1,65 @@
+<html>
+<body>
+{% include "index.html" %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Contactno</th>
+        <th scope="col">Email</th>
+        <th scope="col">IMAGE</th>
+        <th scope="col">DB Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for user in users %}
+    <tr>
+      <td>{{ user.name }}</td>
+      <td>{{ user.age }}</td>
+      <td>{{ user.contactno }}</td>
+    <td>{{ user.email }}</td>
+        <td><img src="{{ user.image.url }}" width="100" height="100"></td>
+     <td><form action="/gotoupdate/" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" name="name" value="{{ user.name }}" readonly>
+              <button type="submit">Update</button>
+         </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{# For Pagianation #}
+    <div class="d-flex justify-content-center">
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item">
+   {% if users.has_other_pages %}
+    {% if users.has_previous %}
+      <span class="page-link"><a href="?page={{ users.previous_page_number }}">Previous</a></span>
+    </li>
+{% else %}
+<li class="disabled"></li>
+      {% endif %}
+  {% endif %}
+{% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+<li class="page-link">{{ i }}<span class="sr-only">(current)</span></li>
+{% else %}
+<span class="page-link">
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      </span>
+{% endif %}
+    {% endfor %}
+  {% if users.has_next %}
+<li class="page-item">
+      <a class="page-link" href="?page={{ users.next_page_number }}">Next</a>
+    </li>
+<li class="disabled"><span></span></li>
+    {% endif %}
+  </ul>
+</nav>
+    </div>
+</body>
+</html>
